@@ -51,7 +51,7 @@ public class Users {
 		return password;
 	}
 
-	/* setter kodujacy haslo */
+	/* setter hashujacy haslo */
 	public void setPassword(String password) {
 		this.password = BCrypt.hashpw(password, BCrypt.gensalt());
 	}
@@ -64,45 +64,15 @@ public class Users {
 		this.email = email;
 	}
 
-	public Users(String username, String password, String email) { // source ->
-																	// generate
-																	// constructor
-																	// for
-																	// fields
-
+	public Users(String username, String password, String email) {
 		this.username = username;
 		this.setPassword(password); // set bo bedziemy ustawiac i kodowac haslo
 		this.email = email;
 	}
 
-	public Users() { // trzeba stworzyc pusty konstruktor
+	public Users() {
 
 	}
-	// create table user_group ( id INT PRIMARY KEY AUTO_INCREMENT, name
-	// VARCHAR(50));
-
-	// create table users (id INT PRIMARY KEY AUTO_INCREMENT,user_group_id int,
-	// username VARCHAR(50), password VARCHAR(255), email VARCHAR(255),
-	// constraint users_email_uindex unique (email),
-	// constraint users_id_uindex unique (id),
-	// constraint users_user_group_id_fk foreign key (user_group_id) references
-	// user_group (id));
-
-	// create table solutions (id INT PRIMARY KEY AUTO_INCREMENT, created
-	// DATETIME, updated DATETIME, description TEXT, excercise_id int, user_id
-	// int,
-	// constraint solutions_excercise_id_id_fk FOREIGN KEY (excercise_id)
-	// references excercises(id)
-	// constraint solutions_user_id_id_fk FOREIGN KEY (user_id) references
-	// users(id));
-
-	// insert into user_groups(name) values ('normal'), ('admin');
-	// insert into excercises (title, description) values ('zadanie1', 'opis1'),
-	// ('zadania2', 'opis2'), ('zadanie3', 'opis3');
-	// insert into users (user_group_id, username, password, email) values (1,
-	// 'jhon', '', 'jhon@gmail.com');
-	// insert into solutions (created, updated, description, excercise_id,
-	// user_id) values (Now(), NOW(), 'opis zadania 1', 1, 1);
 
 	/* PONIEZEJ METODY KLASY USER SLUZACE DO KOMUNIKACJI Z BAZA DANYCH!!!!! */
 
@@ -122,7 +92,7 @@ public class Users {
 			loadedUser.user_group_id = resultSet.getInt("user_group_id");
 			users.add(loadedUser);
 		}
-		
+
 		Users[] uArray = new Users[users.size()];
 		uArray = users.toArray(uArray);
 		return uArray;
@@ -144,6 +114,7 @@ public class Users {
 		return uArray;
 
 	}
+
 	public void saveToDB(Connection conn) throws SQLException {
 		if (this.id == 0) {
 			String sql = "INSERT INTO users(username, email, password, user_group_id) VALUES (?, ?, ?, ?)";
@@ -202,7 +173,7 @@ public class Users {
 		}
 	}
 
-	@Override // utowrzone przez sourse -> generete toString
+	@Override
 	public String toString() {
 		return "Users [id=" + id + ", user_group_id=" + user_group_id + "\n " + " username=" + username + ", password="
 				+ password + ", email=" + email + "]" + "\n";
@@ -282,29 +253,6 @@ public class Users {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-
-		/*
-		 * przypisanie user do grupy, i trzeba za kazdym razem gdy bedziemy
-		 * tworzyc
-		 */
-		/* nowego uzytkownika trzeba bedzie go przypisac do grupy */
-
-		//
-		// Users user3 = loadUserById(conn, 4);
-		// if (user != null) {
-		// user3.setUsername("jhony5");
-		// user3.setEmail("jhony5@gmail.com");
-		// user3.saveToDB(conn);
-		//
-		// user.delete(conn);//do usuniecia uzytkownika o id4
-		// }
-
-		// Users user5 = new Users("Alicja", "francja", "alicja.frog@o2.pl");
-		// user5.setUser_group_id(2);
-		// user5.setUsername("Alicja");
-		// user5.setEmail("alicja.frog@o2.pl");
-		// user5.saveToDB(conn);
-		/* haslo nie uswatiamy, bo mamy na to setPassword ktory go hashuje */
 
 	}
 }
