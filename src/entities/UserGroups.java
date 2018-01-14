@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 import utils.Connector;
 
-public class User_groups {
+public class UserGroups {
 
 	private int id;
 	private String name;
@@ -29,11 +29,11 @@ public class User_groups {
 		this.name = name;
 	}
 
-	public User_groups() {
+	public UserGroups() {
 
 	}
 
-	public User_groups(String name) {
+	public UserGroups(String name) {
 		this.name = name;
 	}
 
@@ -42,25 +42,25 @@ public class User_groups {
 		return "User_groups [id=" + id + ", name=" + name + "]" + "\n";
 	}
 
-	static public User_groups[] loadAllGroups(Connection conn) throws SQLException {
+	static public UserGroups[] loadAllGroups(Connection conn) throws SQLException {
 
-		ArrayList<User_groups> groups = new ArrayList<User_groups>();
+		ArrayList<UserGroups> groups = new ArrayList<UserGroups>();
 		String sql = "SELECT * FROM user_groups";
 		PreparedStatement preparedStatement;
 		preparedStatement = conn.prepareStatement(sql);
 		ResultSet resultSet = preparedStatement.executeQuery();
 		while (resultSet.next()) {
-			User_groups loadedGroup = new User_groups();
+			UserGroups loadedGroup = new UserGroups();
 			loadedGroup.id = resultSet.getInt("id");
 			loadedGroup.name = resultSet.getString("name");
 			groups.add(loadedGroup);
 		}
-		User_groups[] gArray = new User_groups[groups.size()];
+		UserGroups[] gArray = new UserGroups[groups.size()];
 		gArray = groups.toArray(gArray);
 		return gArray;
 	}
 
-	static public User_groups loadGroupById(Connection conn, int id) throws SQLException {
+	static public UserGroups loadGroupById(Connection conn, int id) throws SQLException {
 
 		String sql = "SELECT * FROM user_groups where id=?";
 		PreparedStatement preparedStatement;
@@ -68,7 +68,7 @@ public class User_groups {
 		preparedStatement.setInt(1, id);
 		ResultSet resultSet = preparedStatement.executeQuery();
 		if (resultSet.next()) {
-			User_groups loadedGroup = new User_groups();
+			UserGroups loadedGroup = new UserGroups();
 			loadedGroup.id = resultSet.getInt("id");
 			loadedGroup.name = resultSet.getString("name");
 			return loadedGroup;
@@ -126,7 +126,7 @@ public class User_groups {
 					System.out.println("Enter group name");
 					String groupName = br1.readLine();
 
-					User_groups newGroup = new User_groups();
+					UserGroups newGroup = new UserGroups();
 					newGroup.setName(groupName);
 					newGroup.saveToDB(conn);
 					System.out.println("Group has been added");
@@ -137,7 +137,7 @@ public class User_groups {
 					System.out.println("Enter new name");
 					String groupName = br1.readLine();
 
-					User_groups updatedGroup = new User_groups();
+					UserGroups updatedGroup = loadGroupById(conn, groupId);
 					updatedGroup.setName(groupName);
 					updatedGroup.saveToDB(conn);
 					System.out.println("Information has been updated");
@@ -146,10 +146,12 @@ public class User_groups {
 					System.out.println("enter group ID");
 					int groupId = Integer.parseInt(br1.readLine());
 					if (groupId != 0) {
-						User_groups deleteGroup = loadGroupById(conn, groupId);
+						UserGroups deleteGroup = loadGroupById(conn, groupId);
 						deleteGroup.delete(conn);
 
 					}
+				}else if (input.equals("quit")) {
+					return;
 				}
 
 			}
