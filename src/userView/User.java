@@ -1,4 +1,4 @@
-package user_view;
+package userView;
 
 import java.io.BufferedReader;
 import java.io.IOException;
