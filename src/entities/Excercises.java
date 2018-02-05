@@ -45,8 +45,7 @@ public class Excercises {
 		this.title = title;
 		this.description = description;
 	}
-	// create table excercises (id INT PRIMARY KEY AUTO_INCREMENT,title
-	// VARCHAR(100),description TEXT);
+	/* METHODS */
 
 	static public Excercises[] loadAllExcercises(Connection conn) throws SQLException {
 
@@ -125,60 +124,6 @@ public class Excercises {
 	@Override
 	public String toString() {
 		return "[id=" + id + ", title= " + title + ", description= " + description + "]" + "\n";
-	}
-
-	public static void main(String[] args) throws SQLException {
-		Connection conn = Connector.getConnection();
-		System.out.println(Arrays.toString(loadAllExcercises(Connector.getConnection())));
-		BufferedReader br1 = new BufferedReader(new InputStreamReader(System.in));
-
-		try {
-			while (conn.isValid(3)) {
-				System.out.println("Chose option: " + "\n" + "-> add - add new Exercise;" + "\n"
-						+ "-> edit - edit Exercise information;" + "\n" + "-> delete - delete Exercise from DataBase;"
-						+ "\n" + "-> quit;");
-				String input = br1.readLine();
-
-				if (input.equals("add")) {
-					System.out.println("Enter title");
-					String titleOfExercise = br1.readLine();
-					System.out.println("Enter description of the exercise");
-					String description = br1.readLine();
-
-					Excercises addExercise = new Excercises(titleOfExercise, description);
-					addExercise.setTitle(titleOfExercise);
-					addExercise.setDescription(description);
-					addExercise.saveToDB(conn);
-
-				}
-				if (input.equals("edit")) {
-					System.out.println("Enter exercise ID");
-					int exerciseId = Integer.parseInt(br1.readLine());
-					System.out.println("Enter title");
-					String titleOfExercise = br1.readLine();
-					System.out.println("Enterdescription of the exercise");
-					String description = br1.readLine();
-
-					Excercises editExercise = loadExerciseById(conn, exerciseId);
-					editExercise.setTitle(titleOfExercise);
-					editExercise.setDescription(description);
-					editExercise.saveToDB(conn);
-				}
-				if (input.equals("delete")) {
-					System.out.println("Enter exercise ID");
-					int exerciseId = Integer.parseInt(br1.readLine());
-
-					Excercises deleteExercise = loadExerciseById(conn, exerciseId);
-					deleteExercise.delete(conn);
-
-				} else if (input.equals("quit")) {
-					return;
-				}
-			}
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
 	}
 
 }
